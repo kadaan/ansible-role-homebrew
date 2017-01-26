@@ -1,6 +1,6 @@
 ---
 - hosts: localhost
-
+  remote_user: root
   roles:
     - elliotweiser.osx-command-line-tools
-    - ansible-role-homebrew
+    - homebrew
