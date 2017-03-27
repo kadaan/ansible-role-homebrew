@@ -66,7 +66,7 @@ The directory where your Brewfile is located.
         homebrew_installed_packages:
           - mysql
       roles:
-        - kadaan.homebrew
+        - { role: kadaan.homebrew, homebrew_execute: true }
 
 ## License
 

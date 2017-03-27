@@ -8,6 +8,7 @@
     state: directory
     mode: 0775
   become: yes
+  when: homebrew_execute == true
 
 - name: Ensure Homebrew directory exists.
   file:
@@ -17,6 +18,7 @@
     state: directory
     mode: 0775
   become: yes
+  when: homebrew_execute == true
 
 # Clone Homebrew.
 - name: Ensure Homebrew is installed.
@@ -27,6 +29,7 @@
     update: no
     accept_hostkey: yes
     depth: 1
+  when: homebrew_execute == true
 
 # Adjust Homebrew permissions.
 - name: Ensure proper permissions and ownership on homebrew_brew_bin_path dirs.
@@ -37,6 +40,7 @@
     group: admin
     mode: 0775
   become: yes
+  when: homebrew_execute == true
 
 - name: Ensure proper ownership on homebrew_install_path subdirs.
   file:
@@ -46,37 +50,41 @@
     group: admin
     recurse: true
   become: yes
+  when: homebrew_execute == true
 
 # Place brew binary in proper location and complete setup.
 - name: Check if homebrew binary is already in place.
   stat: "path={{ homebrew_brew_bin_path }}/brew"
   register: homebrew_binary
+  when: homebrew_execute == true
 
 - name: Symlink brew to homebrew_brew_bin_path.
   file:
     src: "{{ homebrew_install_path }}/bin/brew"
     dest: "{{ homebrew_brew_bin_path }}/brew"
     state: link
-  when: homebrew_binary.stat.exists == false
+  when: homebrew_execute == true and homebrew_binary.stat.exists == false
   become: yes
 
 - name: Force update brew after installation.
   command: "{{ homebrew_brew_bin_path }}/brew update --force"
-  when: homebrew_binary.stat.exists == false
+  when: homebrew_execute == true and homebrew_binary.stat.exists == false
 
 # Tap.
 - name: Ensure configured taps are tapped.
   homebrew_tap: "tap={{ item }} state=present"
   with_items: "{{ homebrew_taps }}"
+  when: homebrew_execute == true
 
 # Brew.
 - name: Ensure configured homebrew packages are installed.
   homebrew: "name={{ item }} state=present"
   with_items: "{{ homebrew_installed_packages }}"
+  when: homebrew_execute == true
 
 - name: Upgrade all homebrew packages (if configured).
   homebrew: update_homebrew=yes upgrade_all=yes
-  when: homebrew_upgrade_all_packages
+  when: homebrew_execute == true and homebrew_upgrade_all_packages
 
 # Cask.
 - name: Install configured cask applications.
@@ -85,12 +93,14 @@
     state: present
     install_options: "appdir={{ homebrew_cask_appdir }}"
   with_items: "{{ homebrew_cask_apps }}"
+  when: homebrew_execute == true
 
 - name: Check for Brewfile.
   stat:
     path: "{{ homebrew_brewfile_dir }}/Brewfile"
   register: homebrew_brewfile
+  when: homebrew_execute == true
 
 - name: Install from Brewfile.
   command: "brew bundle chdir={{ homebrew_brewfile_dir }}"
-  when: homebrew_brewfile.stat.exists and homebrew_use_brewfile
+  when: homebrew_execute == true and homebrew_brewfile.stat.exists and homebrew_use_brewfile
