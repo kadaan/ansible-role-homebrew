@@ -69,6 +69,14 @@
   homebrew_tap: "tap={{ item }} state=present"
   with_items: "{{ homebrew_taps }}"
 
+# Cask (prerequisites)
+- name: Install configured prerequisites cask applications.
+  homebrew_cask:
+    name: "{{ item }}"
+    state: present
+    install_options: "appdir={{ homebrew_cask_appdir }}"
+  with_items: "{{ homebrew_cask_prerequisites_apps }}"
+
 # Brew.
 - name: Ensure configured homebrew packages are installed.
   homebrew: "name={{ item }} state=present"
@@ -94,3 +102,4 @@
 - name: Install from Brewfile.
   command: "brew bundle chdir={{ homebrew_brewfile_dir }}"
   when: homebrew_brewfile.stat.exists and homebrew_use_brewfile
+  
