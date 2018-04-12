@@ -9,15 +9,6 @@ matrix:
     # High Sierra (10.13)
     - os: osx
       osx_image: xcode9.3beta
-    # Sierra (10.12)
-    - os: osx
-      osx_image: xcode9.2
-    # El Capitan (10.11)
-    - os: osx
-      osx_image: xcode8
-    # Yosemite (10.10)
-    - os: osx
-      osx_image: xcode6.4
 
 before_install:
   # Consistent Ruby version for dealing w/ initial Homebrew installation.

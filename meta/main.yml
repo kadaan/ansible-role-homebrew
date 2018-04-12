@@ -3,7 +3,7 @@ dependencies:
   - elliotweiser.osx-command-line-tools
 
 galaxy_info:
-  author: geerlingguy
+  author: kadaan
   description: Homebrew for Mac OS X
   company: "Midwestern Mac, LLC"
   license: "license (BSD, MIT)"
