@@ -8,32 +8,26 @@ matrix:
   include:
     # High Sierra (10.13)
     - os: osx
-      osx_image: xcode9.3beta
+      osx_image: xcode9.3
+    # Sierra (10.12)
+    - os: osx
+      osx_image: xcode9.2
+    # El Capitan (10.11)
+    - os: osx
+      osx_image: xcode8
 
 before_install:
-  # Consistent Ruby version for dealing w/ initial Homebrew installation.
-  - rvm install ruby-2.4.2
-  - rvm use ruby-2.4.2
-
-  # Keep Python and OpenSSL libraries up-to-date
+  # Install role dependencies. Do this here, using newer OpenSSL version and a
+  # virtualenv because older macOS versions will fail with the system version of
+  # OpenSSL and Python if done later.
   - brew upgrade openssl || brew install openssl || true
-  - brew upgrade python || brew install python || true
-
-  # Use a virtualenv for sane(r) dependency management
+  - brew upgrade python2 || brew install python2 || true
   - sudo -H pip install -U virtualenv
   - virtualenv --python=/usr/local/bin/python2.7 .venv
   - source .venv/bin/activate
-
-  # Not sure if necessary but covering bases
-  - pip install ansible pyOpenSSL
-
-  # Show Python's detected SSL version
+  - pip install ansible
   - python -c "import ssl; print(ssl.OPENSSL_VERSION)"
-
-  # Install dependency roles (system Python uses old SSL library)
   - ansible-galaxy install -r requirements.yml -p ./roles
-
-  # Leaving the virtualenv, since switching to system Python
   - deactivate
 
   # Uninstall existing brew installation.
@@ -45,9 +39,17 @@ before_install:
   - sudo rm -rf /usr/local/bin/brew
 
 install:
-  # Install pip.
-  - sudo easy_install pip
+  # Get macOS version string.
+  - macos_version=$(sw_vers -productVersion)
 
+  # Install pip (macOS version dependent).
+  - |
+    if [[ "$macos_version" == 10.13.* ]]; then
+      sudo easy_install pip
+    else
+      # See: https://stackoverflow.com/a/49748494/100134
+      curl https://bootstrap.pypa.io/get-pip.py | sudo python
+    fi
   # Install Ansible.
   - sudo -H pip install ansible
 
@@ -67,13 +69,12 @@ script:
   - "ansible-playbook tests/test.yml"
 
   # Test the playbook's idempotence.
-  - idempotence=$(mktemp /tmp/ansible-role-homebrew.XXXXXX)
+  - idempotence=$(mktemp)
   - "ansible-playbook tests/test.yml | tee -a ${idempotence}"
   - >
     tail ${idempotence}
     | grep -q 'changed=0.*failed=0'
     && (echo 'Idempotence test: pass' && exit 0)
     || (echo 'Idempotence test: fail' && exit 1)
-
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
