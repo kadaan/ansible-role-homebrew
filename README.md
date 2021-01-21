@@ -89,7 +89,7 @@ Ansible's `local` connection. See also:
 
 ## Author Information
 
-[kadaan/ansible-role-homebrew][github-link], 2017 
+[kadaan/ansible-role-homebrew][github-link], 2017
 (originally inspired by [Jeff Geerling][author-website], 2014).
 
 #### Maintainer(s)
@@ -107,5 +107,5 @@ Ansible's `local` connection. See also:
 [mit-link]: https://raw.githubusercontent.com/kadaan/ansible-role-homebrew/master/LICENSE
 [dep-osx-clt-role]: https://galaxy.ansible.com/elliotweiser/osx-command-line-tools/
 [role-badge]: https://img.shields.io/ansible/role/1858.svg
-[travis-badge]: https://travis-ci.org/kadaan/ansible-role-homebrew.svg?branch=master
-[travis-link]: https://travis-ci.org/kadaan/ansible-role-homebrew
+[travis-badge]: https://travis-ci.com/kadaan/ansible-role-homebrew.svg?branch=master
+[travis-link]: https://travis-ci.com/kadaan/ansible-role-homebrew
