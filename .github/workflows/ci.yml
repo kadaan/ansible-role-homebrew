@@ -57,12 +57,10 @@ jobs:
         run: |
           cp tests/ansible.cfg ./ansible.cfg
           cp tests/inventory ./inventory
+          ansible-galaxy install -r requirements.yml -p ./roles
 
       - name: Test the playbook's syntax.
         run: ansible-playbook tests/test.yml --syntax-check
-
-      - name: Install dependency roles.
-        run: ansible-galaxy install -r tests/requirements.yml -p ./roles
 
       - name: Test the playbook.
         run: ansible-playbook tests/test.yml
