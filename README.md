@@ -1,8 +1,9 @@
 # Ansible Role: Homebrew
 
-[![Build Status][travis-badge]][travis-link]
-[![MIT licensed][mit-badge]][mit-link]
-[![Galaxy Role][role-badge]][galaxy-link]
+[![MIT licensed][badge-license]][link-license]
+[![Galaxy Role][badge-role]][link-galaxy]
+[![Downloads][badge-downloads]][link-galaxy]
+[![CI][badge-gh-actions]][link-gh-actions]
 
 Installs [Homebrew][homebrew] on macOS, and configures packages, taps, and cask apps according to supplied variables.
 
@@ -98,14 +99,15 @@ Ansible's `local` connection. See also:
 
 [ansible-for-devops]: https://www.ansiblefordevops.com/
 [author-website]: https://www.jeffgeerling.com/
+[badge-downloads]: https://img.shields.io/ansible/role/d/1858.svg
+[badge-license]: https://img.shields.io/github/license/kadaan/ansible-role-homebrew.svg
+[badge-role]: https://img.shields.io/ansible/role/1858.svg
+[badge-gh-actions]: https://github.com/kadaan/ansible-role-homebrew/workflows/CI/badge.svg?event=push
 [caskroom]: https://caskroom.github.io/search
-[galaxy-link]: https://galaxy.ansible.com/kadaan/homebrew/
 [github-link]: https://github.com/kadaan/ansible-role-homebrew
 [homebrew]: http://brew.sh/
-[mac-dev-playbook]: https://github.com/kadaan/mac-dev-playbook
-[mit-badge]: https://img.shields.io/badge/license-MIT-blue.svg
-[mit-link]: https://raw.githubusercontent.com/kadaan/ansible-role-homebrew/master/LICENSE
 [dep-osx-clt-role]: https://galaxy.ansible.com/elliotweiser/osx-command-line-tools/
-[role-badge]: https://img.shields.io/ansible/role/1858.svg
-[travis-badge]: https://travis-ci.com/kadaan/ansible-role-homebrew.svg?branch=master
-[travis-link]: https://travis-ci.com/kadaan/ansible-role-homebrew
+[link-galaxy]: https://galaxy.ansible.com/kadaan/homebrew/
+[link-license]: https://raw.githubusercontent.com/kadaan/ansible-role-homebrew/master/LICENSE
+[link-gh-actions]: https://github.com/kadaan/ansible-role-homebrew/actions?query=workflow%3ACI
+[mac-dev-playbook]: https://github.com/kadaan/mac-dev-playbook
